@@ -91,8 +91,15 @@ func SignOut(ctx *middleware.Context) {
 	ctx.Session.Delete("socialId")
 	ctx.Session.Delete("socialName")
 	ctx.Session.Delete("socialEmail")
-	ctx.SetCookie(setting.CookieUserName, "", -1, setting.AppSubUrl)
-	ctx.SetCookie(setting.CookieRememberName, "", -1, setting.AppSubUrl)
+
+	if setting.Service.EnableReverseProxyAuth {
+		ctx.SetCookie(setting.CookieUserName, "", -1, setting.AppSubUrl, setting.Domain, true, true)
+		ctx.SetCookie(setting.CookieRememberName, "", -1, setting.AppSubUrl, setting.Domain, true, true)
+	} else {
+		ctx.SetCookie(setting.CookieUserName, "", -1, setting.AppSubUrl)
+		ctx.SetCookie(setting.CookieRememberName, "", -1, setting.AppSubUrl)
+	}
+
 	ctx.Redirect(setting.AppSubUrl + "/")
 }
 
