@@ -74,12 +74,13 @@ var (
 	LandingPageUrl     LandingPage
 
 	// Security settings
-	InstallLock          bool
-	SecretKey            string
-	LogInRememberDays    int
-	CookieUserName       string
-	CookieRememberName   string
-	ReverseProxyAuthUser string
+	InstallLock             bool
+	SecretKey               string
+	LogInRememberDays       int
+	CookieUserName          string
+	CookieRememberName      string
+	ReverseProxyAuthUser    string
+	ReverseProxyAuthEmail   string
 
 	// Database settings
 	UseSQLite3    bool
@@ -347,6 +348,7 @@ func NewContext() {
 	CookieUserName = sec.Key("COOKIE_USERNAME").String()
 	CookieRememberName = sec.Key("COOKIE_REMEMBER_NAME").String()
 	ReverseProxyAuthUser = sec.Key("REVERSE_PROXY_AUTHENTICATION_USER").MustString("X-WEBAUTH-USER")
+	ReverseProxyAuthEmail = sec.Key("REVERSE_PROXY_AUTHENTICATION_EMAIL").MustString("X-WEBAUTH-EMAIL")
 
 	sec = Cfg.Section("attachment")
 	AttachmentPath = sec.Key("PATH").MustString(path.Join(AppDataPath, "attachments"))

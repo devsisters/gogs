@@ -100,9 +100,13 @@ func SignedInUser(ctx *macaron.Context, sess session.Store) (*models.User, bool)
 
 					// Check if enabled auto-registration.
 					if setting.Service.EnableReverseProxyAutoRegister {
+						email := ctx.Req.Header.Get(setting.ReverseProxyAuthEmail)
+						if len(email) == 0 {
+							email = uuid.NewV4().String() + "@localhost"
+						}
 						u := &models.User{
 							Name:     webAuthUser,
-							Email:    uuid.NewV4().String() + "@localhost",
+							Email:    email,
 							Passwd:   webAuthUser,
 							IsActive: true,
 						}
